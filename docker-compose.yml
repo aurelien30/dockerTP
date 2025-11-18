@@ -1,0 +1,73 @@
+version: "3.9"
+
+services:
+  # -----------------------------
+  # MySQL
+  # -----------------------------
+  mysql:
+    image: mysql:8
+    container_name: mysql_tp
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: laravel
+      MYSQL_USER: laravel
+      MYSQL_PASSWORD: laravelpass
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  # -----------------------------
+  # Serveur Laravel n°1
+  # -----------------------------
+  php_server1:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+    container_name: php_server1
+    volumes:
+      - ./src:/var/www/html
+    environment:
+      ENV_FILE: ".env.server1"
+      DB_HOST: "mysql"
+      DB_PORT: 3306
+      MIGRATE: "false"
+    depends_on:
+      - mysql
+
+  # -----------------------------
+  # Serveur Laravel n°2
+  # -----------------------------
+  php_server2:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+    container_name: php_server2
+    volumes:
+      - ./src:/var/www/html
+    environment:
+      ENV_FILE: ".env.server2"
+      DB_HOST: "mysql"
+      DB_PORT: 3306
+      MIGRATE: "false"
+    depends_on:
+      - mysql
+
+  # -----------------------------
+  # Nginx
+  # -----------------------------
+  nginx:
+    image: nginx:alpine
+    container_name: nginx_tp
+    depends_on:
+      - php_server1
+      - php_server2
+    ports:
+      - "8081:80"
+      - "8082:81"
+    volumes:
+      - ./src:/var/www/html
+      - ./docker/nginx:/etc/nginx/conf.d
+
+volumes:
+  mysql_data:
