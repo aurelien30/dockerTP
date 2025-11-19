@@ -22,8 +22,8 @@ services:
   # -----------------------------
   php_server1:
     build:
-      context: .
-      dockerfile: docker/php/Dockerfile
+      context: ./docker/php
+      dockerfile: Dockerfile
     container_name: php_server1
     volumes:
       - ./src:/var/www/html
@@ -31,7 +31,9 @@ services:
       ENV_FILE: ".env.server1"
       DB_HOST: "mysql"
       DB_PORT: 3306
-      MIGRATE: "false"
+      MIGRATE: "true"
+      APP_KEY: "base64:Xfjt0+feR/hi8Vrmt/NO/gabx7HDXDRMSkQXiSOesIU="
+      SERVER_MESSAGE: "Serveur 1 j’aime le caca"
     depends_on:
       - mysql
 
@@ -40,8 +42,8 @@ services:
   # -----------------------------
   php_server2:
     build:
-      context: .
-      dockerfile: docker/php/Dockerfile
+      context: ./docker/php
+      dockerfile: Dockerfile
     container_name: php_server2
     volumes:
       - ./src:/var/www/html
@@ -50,6 +52,8 @@ services:
       DB_HOST: "mysql"
       DB_PORT: 3306
       MIGRATE: "false"
+      APP_KEY: "base64:Xfjt0+feR/hi8Vrmt/NO/gabx7HDXDRMSkQXiSOesIU="
+      SERVER_MESSAGE: "Serveur 2 oui oui les ia c’est bien"
     depends_on:
       - mysql
 
