@@ -22,8 +22,8 @@ services:
   # -----------------------------
   php_server1:
     build:
-      context: .
-      dockerfile: docker/php/Dockerfile
+      context: ./docker/php
+      dockerfile: Dockerfile
     container_name: php_server1
     volumes:
       - ./src:/var/www/html
@@ -40,8 +40,8 @@ services:
   # -----------------------------
   php_server2:
     build:
-      context: .
-      dockerfile: docker/php/Dockerfile
+      context: ./docker/php
+      dockerfile: Dockerfile
     container_name: php_server2
     volumes:
       - ./src:/var/www/html

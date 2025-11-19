@@ -46,7 +46,7 @@ else
 fi
 
 ###############################################
-# 4. Node build (optionnel en production)
+# 4. Node build 
 ###############################################
 
 if [ -f package.json ]; then
@@ -60,7 +60,7 @@ else
 fi
 
 ###############################################
-# 5. Génération de clé + migrations (optionnel)
+# 5. Génération de clé + migrations 
 ###############################################
 
 if [ "$MIGRATE" = "true" ]; then
